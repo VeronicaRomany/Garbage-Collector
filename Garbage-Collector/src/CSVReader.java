@@ -76,10 +76,12 @@ public class CSVReader {
         System.out.println("Heap Input >> ");
         csv.printHeap(objects);
 
-        MarkAndSweep m = new MarkAndSweep();
-        newHeap =  m.solve((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
+//        MarkAndSweep m = new MarkAndSweep();
+//        newHeap =  m.solve((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
 
-        System.out.println("Heap after mark and sweep >> ");
+        MarkAndCompact m = new MarkAndCompact();
+        newHeap =  m.solve((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
+        System.out.println("Heap after mark and Compact >> ");
         csv.printHeap(newHeap);
 
       //   m.Mark((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
