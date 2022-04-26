@@ -1,45 +1,37 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class CSVReader {
-  /*  public Stack heapInput(String path) {
-        Stack heapStack = null;
+    public HashMap<Integer, HeapObject> heapInput(String path) {
+        HashMap<Integer, HeapObject> heap = new HashMap<>();
         String line = "";
         String splitBy = ",";
         try {
-            //parsing a CSV file into BufferedReader class constructor
             BufferedReader br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null)
-            //returns a Boolean value
-            {
+            while ((line = br.readLine()) != null) {
                 String[] object = line.split(splitBy);
-                //use comma as
                 HeapObject heapObject = new HeapObject((Integer.parseInt(object[0])), Integer.parseInt(object[1]), Integer.parseInt(object[2]));
-                heapStack.push(heapObject);
-                System.out.println("Emp[First Name=" + object[0] + ", Last Name=" + object[1] + ", Contact=" + object[2]);
+              //  heap.add(heapObject);
+                heap.put(Integer.parseInt(object[0]),heapObject);
             }
         }
         catch(IOException e) {
             e.printStackTrace();
         }
-        return heapStack;
+        return heap;
     }
-*/
-    public List readRoots(String path) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(path));
+
+    public List readRoots(String path) {
         List roots = new ArrayList();
-        // Declaring a string variable
-        String st;
-        // Condition holds true till
-        // there is character in a string
-        while ((st = br.readLine()) != null) {
-            roots.add(Integer.parseInt(st));
-        // Print the string
-        System.out.println(roots.size());
-        System.out.println(roots);
-    }
+        String st="";
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            while ((st = br.readLine()) != null) {
+                roots.add(Integer.parseInt(st));
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         return roots;
     }
 
@@ -73,9 +65,42 @@ public class CSVReader {
 
     public static void main(String[] args) throws IOException {
         CSVReader csv = new CSVReader();
-     //   csv.heapInput("C:\\Users\\Dell\\Desktop\\heap.csv");
-        //csv.readRoots("C:\\Users\\Dell\\Desktop\\roots.txt");
-       // csv.readPointers("C:\\Users\\Dell\\Desktop\\pointers.csv");
+        HashMap heapReturned = csv.heapInput("C:\\Users\\veror\\Desktop\\Book1.csv");
+        List rootsReturned = csv.readRoots("C:\\Users\\veror\\Desktop\\roots.txt");
+
+        for(int i=0 ; i<rootsReturned.size();i++){
+            if(heapReturned.containsKey(rootsReturned.get(i))){
+                HeapObject h = (HeapObject) heapReturned.get(rootsReturned.get(i));
+                h.setMarked(true);
+            }
+        }
+
+        Iterator hmIterator = heapReturned.entrySet().iterator();
+        while (hmIterator.hasNext()) {
+            Map.Entry mapElement = (Map.Entry)hmIterator.next();
+            HeapObject h = ((HeapObject) mapElement.getValue() );
+            System.out.println(mapElement.getKey() + " : " + h.getId() + " " + h.isMarked());
+        }
+
+//        heapReturned.forEach((key, value) -> System.out.println("Key = " + key ));
+//        for (Map.Entry<Integer, HeapObject> entry : heapReturned.entrySet()) {
+//            Object key = entry.getKey();
+//            Object value = entry.getValue();
+//            //TODO: other cool stuff
+//        }
+////
+//
+//        for (int i=0 ; i< rootsReturned.size();i++){
+//            System.out.println(rootsReturned.get(i));
+//
+//        }
+        //        for (int i=0 ; i< heapReturned.size();i++){
+//            HeapObject obj = (HeapObject) heapReturned.get(i);
+//            System.out.println("Marked what : "+ obj.isMarked());
+//        }
+
+
+        // csv.readPointers("C:\\Users\\Dell\\Desktop\\pointers.csv");
     }
 }
 
