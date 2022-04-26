@@ -2,8 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class CSVReader {
-    public HashMap<Integer, HeapObject> heapInput(String path) {
-        HashMap<Integer, HeapObject> heap = new HashMap<>();
+      List <HeapObject> objects = new ArrayList<>();
+
+    public HashMap<Integer, Integer> heapInput(String path) {
+        HashMap<Integer, Integer> heap = new HashMap<>();
         String line = "";
         String splitBy = ",";
         try {
@@ -11,8 +13,8 @@ public class CSVReader {
             while ((line = br.readLine()) != null) {
                 String[] object = line.split(splitBy);
                 HeapObject heapObject = new HeapObject((Integer.parseInt(object[0])), Integer.parseInt(object[1]), Integer.parseInt(object[2]));
-              //  heap.add(heapObject);
-                heap.put(Integer.parseInt(object[0]),heapObject);
+                objects.add(heapObject);
+                heap.put(Integer.parseInt(object[0]),objects.indexOf(heapObject));
             }
         }
         catch(IOException e) {
@@ -70,17 +72,22 @@ public class CSVReader {
 
         for(int i=0 ; i<rootsReturned.size();i++){
             if(heapReturned.containsKey(rootsReturned.get(i))){
-                HeapObject h = (HeapObject) heapReturned.get(rootsReturned.get(i));
+                HeapObject h = (HeapObject) csv.objects.get(i);
                 h.setMarked(true);
             }
         }
 
-        Iterator hmIterator = heapReturned.entrySet().iterator();
-        while (hmIterator.hasNext()) {
-            Map.Entry mapElement = (Map.Entry)hmIterator.next();
-            HeapObject h = ((HeapObject) mapElement.getValue() );
-            System.out.println(mapElement.getKey() + " : " + h.getId() + " " + h.isMarked());
+        for(int i=0 ; i<csv.objects.size();i++){
+            System.out.println(csv.objects.get(i).getId() + " " + csv.objects.get(i).isMarked());
         }
+
+//        Iterator hmIterator = heapReturned.entrySet().iterator();
+//        while (hmIterator.hasNext()) {
+//            Map.Entry mapElement = (Map.Entry)hmIterator.next();
+//          //  HeapObject h = ((HeapObject) mapElement.getValue() );
+//            int index = (int) mapElement.getValue();
+//            System.out.println(mapElement.getKey() + " : " +csv.objects.get(index).getId() + " " +csv.objects.get(index).isMarked());
+//        }
 
 //        heapReturned.forEach((key, value) -> System.out.println("Key = " + key ));
 //        for (Map.Entry<Integer, HeapObject> entry : heapReturned.entrySet()) {
