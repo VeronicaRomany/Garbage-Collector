@@ -37,7 +37,7 @@ public class CSVReader {
         return roots;
     }
 
-    public void readPointers(String path , HashMap<Integer,Integer> heap) {
+    public Graph readPointers(String path , HashMap<Integer,Integer> heap) {
      //   List<Edge> edges= new ArrayList<>();
         Graph g = new Graph(objects.size());
         String line = "";
@@ -59,33 +59,36 @@ public class CSVReader {
        //         System.out.println(edges);
        //         System.out.println(edges.size());
             }
-            g.PrintGraph();
-            g.DFS(0);
-            System.out.println("");
+
        //     Graph graph = new Graph(edges);
           //  printGraph(graph);
         }
         catch(IOException e) {
             e.printStackTrace();
         }
+        return g ;
     }
 
     public static void main(String[] args) throws IOException {
         CSVReader csv = new CSVReader();
         HashMap heapReturned = csv.heapInput("C:\\Users\\marko\\Desktop\\p.csv");
         List rootsReturned = csv.readRoots("C:\\Users\\marko\\Desktop\\r.txt");
-         csv.readPointers("C:\\Users\\marko\\Desktop\\h.csv",heapReturned);
 
-        for(int i=0 ; i<rootsReturned.size();i++){
-            if(heapReturned.containsKey(rootsReturned.get(i))){
-                HeapObject h = (HeapObject) csv.objects.get(i);
-                h.setMarked(true);
-            }
-        }
-
+         Graph g = csv.readPointers("C:\\Users\\marko\\Desktop\\h.csv",heapReturned);
+         MarkAndSweep m = new MarkAndSweep();
         for(int i=0 ; i<csv.objects.size();i++){
             System.out.println(csv.objects.get(i).getId() + " " + csv.objects.get(i).isMarked());
         }
+         m.Mark((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
+
+    //    for(int i=0 ; i<rootsReturned.size();i++){
+    //        if(heapReturned.containsKey(rootsReturned.get(i))){
+    //            HeapObject h = (HeapObject) csv.objects.get(i);
+    //            h.setMarked(true);
+    //        }
+    //    }
+//
+
 
        Iterator hmIterator = heapReturned.entrySet().iterator();
        while (hmIterator.hasNext()) {

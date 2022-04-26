@@ -10,9 +10,13 @@ import java.util.*;
 class Graph {
     private int V; // No. of vertices
 
+    public int getV() {
+        return V;
+    }
+
     // Array of lists for
     // Adjacency List Representation
-    private LinkedList<Integer> adj[];
+     LinkedList<Integer> adj[];
 
     // Constructor
     @SuppressWarnings("unchecked") Graph(int v)
