@@ -1,69 +1,77 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+// Java program to print DFS
+// mtraversal from a given given
+// graph
+import java.io.*;
+import java.util.*;
 
-// A class to store a graph edge
-class Edge
-{
-    int src, dest;
+// This class represents a
+// directed graph using adjacency
+// list representation
+class Graph {
+    private int V; // No. of vertices
 
-    Edge(int src, int dest)
+    // Array of lists for
+    // Adjacency List Representation
+    private LinkedList<Integer> adj[];
+
+    // Constructor
+    @SuppressWarnings("unchecked") Graph(int v)
     {
-        this.src = src;
-        this.dest = dest;
-    }
-}
-
-// A class to represent a graph object
-class Graph
-{
-    // A list of lists to represent an adjacency list
-    List<List<Integer>> adjList = new ArrayList<>();
-
-    // Constructor to construct a graph
-    public Graph(List<Edge> edges)
-    {
-        // find the maximum numbered vertex
-        int n = 0;
-        for (Edge e: edges) {
-            n = Integer.max(n, Integer.max(e.src, e.dest));
-        }
-
-        // allocate memory for the adjacency list
-        for (int i = 0; i <= n; i++) {
-            adjList.add(i, new ArrayList<>());
-        }
-
-        // add edges to the directed graph
-        for (Edge current: edges)
-        {
-            // allocate new node in adjacency list from src to dest
-            adjList.get(current.src).add(current.dest);
-
-            // uncomment below line for undirected graph
-
-            // allocate new node in adjacency list from dest to src
-            // adjList.get(current.dest).add(current.src);
-        }
+        V = v;
+        adj = new LinkedList[v];
+        for (int i = 0; i < v; ++i)
+            adj[i] = new LinkedList();
     }
 
-    // Function to print adjacency list representation of a graph
-
-}
-
-class Mainn
-{
-    public static void main (String[] args)
+    // Function to add an edge into the graph
+    void addEdge(int v, int w)
     {
-        // Input: List of edges in a digraph (as per the above diagram)
-        List<Edge> edges = Arrays.asList(new Edge(0, 1), new Edge(1, 2),
-                new Edge(2, 0), new Edge(2, 1), new Edge(3, 2),
-                new Edge(4, 5), new Edge(5, 4));
-
-        // construct a graph from the given list of edges
-        Graph graph = new Graph(edges);
-
-        // print adjacency list representation of the graph
-        //Graph.printGraph(graph);
+        adj[v].add(w); // Add w to v's list.
     }
+
+    // A function used by DFS
+    void DFSUtil(int v, boolean visited[])
+    {
+        // Mark the current node as visited and print it
+        visited[v] = true;
+        System.out.print(v + " ");
+
+        // Recur for all the vertices adjacent to this
+        // vertex
+        Iterator<Integer> i = adj[v].listIterator();
+        while (i.hasNext()) {
+            int n = i.next();
+            if (!visited[n])
+                DFSUtil(n, visited);
+        }
+    }
+
+    // The function to do DFS traversal.
+    // It uses recursive
+    // DFSUtil()
+    void DFS(int v)
+    {
+        // Mark all the vertices as
+        // not visited(set as
+        // false by default in java)
+        boolean visited[] = new boolean[V];
+
+        // Call the recursive helper
+        // function to print DFS
+        // traversal
+        DFSUtil(v, visited);
+    }
+
+    void PrintGraph(){
+        for(int i =0 ; i< adj.length;i++){
+            System.out.print(i +":");
+            for (int j=0 ; j< adj[i].size();j++)
+            System.out.print(adj[i].get(j) + " ");
+            System.out.println("");
+        }
+
+    }
+
+
 }
+// This code is contributed by Aakash Hasija

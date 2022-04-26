@@ -37,27 +37,32 @@ public class CSVReader {
         return roots;
     }
 
-    public void readPointers(String path) {
-        List<Edge> edges= new ArrayList<>();
+    public void readPointers(String path , HashMap<Integer,Integer> heap) {
+     //   List<Edge> edges= new ArrayList<>();
+        Graph g = new Graph(objects.size());
         String line = "";
         String splitBy = ",";
         try {
-            //parsing a CSV file into BufferedReader class constructor
             BufferedReader br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null)
-            //returns a Boolean value
             {
                 String[] object = line.split(splitBy);
                 int src = Integer.parseInt(object[0]);
                 int dest = Integer.parseInt(object[1]);
                 System.out.println("src is " + src + dest);
-                Edge edge = new Edge(src, dest);
-                edges.add(edge);
-                System.out.println("Emp[First Name=" + object[0] + ", Last Name=" + object[1]);
-                System.out.println(edges);
-                System.out.println(edges.size());
+                System.out.println(heap.get(src)+"  "+ heap.get(dest));
+                g.addEdge(heap.get(src), heap.get(dest));
+
+              //  Edge edge = new Edge(src, dest);
+       //         edges.add(edge);
+       //         System.out.println("Emp[First Name=" + object[0] + ", Last Name=" + object[1]);
+       //         System.out.println(edges);
+       //         System.out.println(edges.size());
             }
-            Graph graph = new Graph(edges);
+            g.PrintGraph();
+            g.DFS(0);
+            System.out.println("");
+       //     Graph graph = new Graph(edges);
           //  printGraph(graph);
         }
         catch(IOException e) {
@@ -67,8 +72,9 @@ public class CSVReader {
 
     public static void main(String[] args) throws IOException {
         CSVReader csv = new CSVReader();
-        HashMap heapReturned = csv.heapInput("C:\\Users\\veror\\Desktop\\Book1.csv");
-        List rootsReturned = csv.readRoots("C:\\Users\\veror\\Desktop\\roots.txt");
+        HashMap heapReturned = csv.heapInput("C:\\Users\\marko\\Desktop\\p.csv");
+        List rootsReturned = csv.readRoots("C:\\Users\\marko\\Desktop\\r.txt");
+         csv.readPointers("C:\\Users\\marko\\Desktop\\h.csv",heapReturned);
 
         for(int i=0 ; i<rootsReturned.size();i++){
             if(heapReturned.containsKey(rootsReturned.get(i))){
@@ -81,13 +87,14 @@ public class CSVReader {
             System.out.println(csv.objects.get(i).getId() + " " + csv.objects.get(i).isMarked());
         }
 
-//        Iterator hmIterator = heapReturned.entrySet().iterator();
-//        while (hmIterator.hasNext()) {
-//            Map.Entry mapElement = (Map.Entry)hmIterator.next();
-//          //  HeapObject h = ((HeapObject) mapElement.getValue() );
-//            int index = (int) mapElement.getValue();
-//            System.out.println(mapElement.getKey() + " : " +csv.objects.get(index).getId() + " " +csv.objects.get(index).isMarked());
-//        }
+       Iterator hmIterator = heapReturned.entrySet().iterator();
+       while (hmIterator.hasNext()) {
+           Map.Entry mapElement = (Map.Entry)hmIterator.next();
+           System.out.println(mapElement.getKey() + " "+ mapElement.getValue());
+         //  HeapObject h = ((HeapObject) mapElement.getValue() );
+      //     int index = (int) mapElement.getValue();
+     //      System.out.println(mapElement.getKey() + " : " +csv.objects.get(index).getId() + " " +csv.objects.get(index).isMarked());
+       }
 
 //        heapReturned.forEach((key, value) -> System.out.println("Key = " + key ));
 //        for (Map.Entry<Integer, HeapObject> entry : heapReturned.entrySet()) {
@@ -107,7 +114,7 @@ public class CSVReader {
 //        }
 
 
-        // csv.readPointers("C:\\Users\\Dell\\Desktop\\pointers.csv");
+
     }
 }
 
