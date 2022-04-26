@@ -1,11 +1,29 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class MarkAndCompact {
 
+    public ArrayList<HeapObject> sorting (ArrayList<HeapObject> heap){
+
+        for (int i = 0; i < heap.size() - 1; i++)
+            for (int j = 0; j < heap.size() - i - 1; j++)
+                if (heap.get(j).getStart() > heap.get(j+1).getStart()) {
+//                    // swap arr[j+1] and arr[j]
+//                    HeapObject temp = heap.get(j);
+//                    heap.add(j, heap.get(j+1));
+//                    heap.add(j+1, temp);
+                    Collections.swap(heap,j,j+1);
+                }
+        return  heap;
+    }
+
     public ArrayList<HeapObject> compact (ArrayList<HeapObject> heap){
        // ArrayList<HeapObject> compactHeap = new ArrayList<>();
-        // assume sorted by start point
+        //sorting heap
+
+        heap = sorting(heap);
+
         ArrayList<Integer> blockSize = new ArrayList<>();
         for(int i=0 ; i<heap.size();i++){               // calculate the blocks sizes
             blockSize.add(heap.get(i).getEnd()-heap.get(i).getStart());
