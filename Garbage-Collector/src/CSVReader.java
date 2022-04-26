@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class CSVReader {
-      List <HeapObject> objects = new ArrayList<>();
+      static List <HeapObject> objects = new ArrayList<>();
 
     public HashMap<Integer, Integer> heapInput(String path) {
         HashMap<Integer, Integer> heap = new HashMap<>();
@@ -44,24 +44,14 @@ public class CSVReader {
         String splitBy = ",";
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
-            while ((line = br.readLine()) != null)
-            {
+            while ((line = br.readLine()) != null) {
                 String[] object = line.split(splitBy);
                 int src = Integer.parseInt(object[0]);
                 int dest = Integer.parseInt(object[1]);
-                System.out.println("src is " + src + dest);
-                System.out.println(heap.get(src)+"  "+ heap.get(dest));
+             //   System.out.println("src is " + src + dest);
+              //  System.out.println(heap.get(src)+"  "+ heap.get(dest));
                 g.addEdge(heap.get(src), heap.get(dest));
-
-              //  Edge edge = new Edge(src, dest);
-       //         edges.add(edge);
-       //         System.out.println("Emp[First Name=" + object[0] + ", Last Name=" + object[1]);
-       //         System.out.println(edges);
-       //         System.out.println(edges.size());
             }
-
-       //     Graph graph = new Graph(edges);
-          //  printGraph(graph);
         }
         catch(IOException e) {
             e.printStackTrace();
@@ -69,17 +59,30 @@ public class CSVReader {
         return g ;
     }
 
+    public void printHeap(List<HeapObject> h){
+        for(int i=0 ; i<h.size();i++){
+            System.out.println(h.get(i).getId() + " " + h.get(i).isMarked() + " " + h.get(i).getStart() + " " + h.get(i).getEnd());
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         CSVReader csv = new CSVReader();
-        HashMap heapReturned = csv.heapInput("C:\\Users\\marko\\Desktop\\p.csv");
-        List rootsReturned = csv.readRoots("C:\\Users\\marko\\Desktop\\r.txt");
+        ArrayList <HeapObject> newHeap = new ArrayList<>();
 
-         Graph g = csv.readPointers("C:\\Users\\marko\\Desktop\\h.csv",heapReturned);
-         MarkAndSweep m = new MarkAndSweep();
-        for(int i=0 ; i<csv.objects.size();i++){
-            System.out.println(csv.objects.get(i).getId() + " " + csv.objects.get(i).isMarked());
-        }
-         m.Mark((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
+        HashMap heapReturned = csv.heapInput("C:\\Users\\veror\\Desktop\\Book1.csv");
+        List rootsReturned = csv.readRoots("C:\\Users\\veror\\Desktop\\roots.txt");
+         Graph g = csv.readPointers("C:\\Users\\veror\\Desktop\\pointers.csv",heapReturned);
+
+        System.out.println("Heap Input >> ");
+        csv.printHeap(objects);
+
+        MarkAndSweep m = new MarkAndSweep();
+        newHeap =  m.solve((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
+
+        System.out.println("Heap after mark and sweep >> ");
+        csv.printHeap(newHeap);
+
+      //   m.Mark((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
 
     //    for(int i=0 ; i<rootsReturned.size();i++){
     //        if(heapReturned.containsKey(rootsReturned.get(i))){
@@ -90,14 +93,14 @@ public class CSVReader {
 //
 
 
-       Iterator hmIterator = heapReturned.entrySet().iterator();
-       while (hmIterator.hasNext()) {
-           Map.Entry mapElement = (Map.Entry)hmIterator.next();
-           System.out.println(mapElement.getKey() + " "+ mapElement.getValue());
+//       Iterator hmIterator = heapReturned.entrySet().iterator();
+//       while (hmIterator.hasNext()) {
+//           Map.Entry mapElement = (Map.Entry)hmIterator.next();
+//           System.out.println(mapElement.getKey() + " "+ mapElement.getValue());
          //  HeapObject h = ((HeapObject) mapElement.getValue() );
       //     int index = (int) mapElement.getValue();
      //      System.out.println(mapElement.getKey() + " : " +csv.objects.get(index).getId() + " " +csv.objects.get(index).isMarked());
-       }
+//       }
 
 //        heapReturned.forEach((key, value) -> System.out.println("Key = " + key ));
 //        for (Map.Entry<Integer, HeapObject> entry : heapReturned.entrySet()) {
