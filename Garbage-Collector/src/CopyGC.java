@@ -10,13 +10,13 @@ public class CopyGC {
     private HashMap<Integer, Integer> heapHash;
     private Graph heapGraph; // graph to gain access to pointers of each node...adjList
     private List<HeapObject> objects;
-    public int startLoc, endLoc;
+    private int startLoc, endLoc;
 
     private void init(String heapPath, String rootsPath, String pointersPath) {
         CSVReader csvReader = new CSVReader();
-        heapHash = csvReader.heapInput("C:\\Users\\Dell\\Desktop\\heaps.csv.txt");
-        roots = csvReader.readRoots("C:\\Users\\Dell\\Desktop\\roots.txt");
-        heapGraph = csvReader.readPointers("C:\\Users\\Dell\\Desktop\\pointers.txt", heapHash);
+        heapHash = csvReader.heapInput(heapPath); //"C:\\Users\\Dell\\Desktop\\heaps.csv.txt"
+        roots = csvReader.readRoots(rootsPath); //"C:\\Users\\Dell\\Desktop\\roots.txt"
+        heapGraph = csvReader.readPointers(pointersPath, heapHash); //"C:\\Users\\Dell\\Desktop\\pointers.txt"
         objects = csvReader.objects;
     }
 
@@ -71,10 +71,10 @@ public class CopyGC {
         endLoc++;
     }
 
-    private void writeOutput(List<HeapObject> toSpace) {
-        File file = new File("copy.csv");
+    private void writeOutput(List<HeapObject> toSpace, String outputPath) {
+        File file = new File(outputPath + "\\newHeap.csv"); //out
         try {
-            FileWriter myWriter = new FileWriter("copy.csv");
+            FileWriter myWriter = new FileWriter(file);
             for (HeapObject heapObject : toSpace) {
                 myWriter.write(heapObject.getId() + "," + heapObject.getStart() + "," + heapObject.getEnd());
                 myWriter.write("\n");
@@ -86,9 +86,9 @@ public class CopyGC {
         }
     }
 
-    public void copyGC(String heapPath, String rootsPath, String pointersPath) {
+    public void copyGC(String heapPath, String rootsPath, String pointersPath, String outputPath) {
         init(heapPath, rootsPath, pointersPath);
         List<HeapObject> newHeap = copyAlgorithm();
-        writeOutput(newHeap);
+        writeOutput(newHeap, outputPath);
     }
 }
