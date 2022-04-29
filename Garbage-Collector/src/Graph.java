@@ -1,47 +1,30 @@
-// Java program to print DFS
-// mtraversal from a given given
-// graph
+
 import java.io.*;
 import java.util.*;
 
-// This class represents a
-// directed graph using adjacency
-// list representation
 class Graph {
     private int V; // No. of vertices
+     LinkedList<Integer> adj[];     // Array of lists for Adjacency List Representation
 
-    public int getV() {
-        return V;
-    }
 
-    // Array of lists for
-    // Adjacency List Representation
-     LinkedList<Integer> adj[];
-
-    // Constructor
-    @SuppressWarnings("unchecked") Graph(int v)
-    {
+    @SuppressWarnings("unchecked") Graph(int v) {
         V = v;
         adj = new LinkedList[v];
         for (int i = 0; i < v; ++i)
             adj[i] = new LinkedList();
     }
 
-    // Function to add an edge into the graph
-    void addEdge(int v, int w)
-    {
-        adj[v].add(w); // Add w to v's list.
+    public int getV() {
+        return V;
+    }
+    void addEdge(int v, int w) {
+        adj[v].add(w);
     }
 
     // A function used by DFS
-    void DFSUtil(int v, boolean visited[])
-    {
-        // Mark the current node as visited and print it
-        visited[v] = true;
-        System.out.print(v + " ");
+    void DFSUtil(int v, boolean visited[]) {
+        visited[v] = true;  // Mark the current node as visited
 
-        // Recur for all the vertices adjacent to this
-        // vertex
         Iterator<Integer> i = adj[v].listIterator();
         while (i.hasNext()) {
             int n = i.next();
@@ -51,28 +34,8 @@ class Graph {
     }
 
     // The function to do DFS traversal.
-    // It uses recursive
-    // DFSUtil()
-    void DFS(int v)
-    {
-        // Mark all the vertices as
-        // not visited(set as
-        // false by default in java)
+    void DFS(int v) {
         boolean visited[] = new boolean[V];
-
-        // Call the recursive helper
-        // function to print DFS
-        // traversal
         DFSUtil(v, visited);
-    }
-
-    void PrintGraph(){
-        for(int i =0 ; i< adj.length;i++){
-            System.out.print(i +":");
-            for (int j=0 ; j< adj[i].size();j++)
-            System.out.print(adj[i].get(j) + " ");
-            System.out.println("");
-        }
-
     }
 }
