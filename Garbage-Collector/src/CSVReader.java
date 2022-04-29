@@ -62,7 +62,7 @@ public class CSVReader {
             System.out.println(h.get(i).getId() + " " + h.get(i).isMarked() + " " + h.get(i).getStart() + " " + h.get(i).getEnd());
         }
     }
-    
+
     void writeOutput(List<HeapObject> newHeap, String outputPath) {
         File file = new File(outputPath + "\\new-heap.csv"); //out
         try {
