@@ -39,7 +39,7 @@ public class G1Runner {
         marker.Mark((ArrayList<HeapObject>) objects,graph,(ArrayList<Integer>) rootlist,heapHash); //marking
         g1.sweep(); //sweeping from the heap
         g1.defragment(); //defragmentation process
-        g1.writeOutput(g1.getObjectsList(),outputPath);
+        r.writeOutput(g1.getObjectsList(),outputPath);
 
     }
 

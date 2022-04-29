@@ -11,9 +11,8 @@ public class CopyGC {
     private Graph heapGraph; // graph to gain access to pointers of each node...adjList
     private List<HeapObject> objects;
     private int startLoc, endLoc;
-
+    private CSVReader csvReader = new CSVReader();
     private void init(String heapPath, String rootsPath, String pointersPath) {
-        CSVReader csvReader = new CSVReader();
         heapHash = csvReader.heapInput(heapPath); //"C:\\Users\\Dell\\Desktop\\heaps.csv.txt"
         roots = csvReader.readRoots(rootsPath); //"C:\\Users\\Dell\\Desktop\\roots.txt"
         heapGraph = csvReader.readPointers(pointersPath, heapHash); //"C:\\Users\\Dell\\Desktop\\pointers.txt"
@@ -67,25 +66,12 @@ public class CopyGC {
         endLoc++;
     }
 
-    private void writeOutput(List<HeapObject> toSpace, String outputPath) {
-        File file = new File(outputPath + "\\new-heap.csv"); //out
-        try {
-            FileWriter myWriter = new FileWriter(file);
-            for (HeapObject heapObject : toSpace) {
-                myWriter.write(heapObject.getId() + "," + heapObject.getStart() + "," + heapObject.getEnd());
-                myWriter.write("\n");
-            }
-            myWriter.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void copyGC(String heapPath, String rootsPath, String pointersPath, String outputPath) {
         init(heapPath, rootsPath, pointersPath);
         List<HeapObject> newHeap = copyAlgorithm();
-        writeOutput(newHeap, outputPath);
+        csvReader.writeOutput(newHeap, outputPath);
     }
 
     public static void main(String[] args) {

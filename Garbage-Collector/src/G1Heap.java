@@ -75,21 +75,6 @@ public class G1Heap {
         }
     }
 
-    public void writeOutput(List<HeapObject> toSpace, String outputPath) {
-        File file = new File(outputPath + "\\new-heap.csv"); //out
-        try {
-            FileWriter myWriter = new FileWriter(file);
-            for (HeapObject heapObject : toSpace) {
-                myWriter.write(heapObject.getId() + "," + heapObject.getStart() + "," + heapObject.getEnd());
-                myWriter.write("\n");
-            }
-            myWriter.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public List<HeapObject> getObjectsList(){
         List<HeapObject> heaplist=new ArrayList<>();
         for(int i=0;i<16;i++){

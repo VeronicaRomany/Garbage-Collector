@@ -68,21 +68,7 @@ public class MarkAndSweep {
         List<HeapObject> objects= CSVReader.objects;
 
         List<HeapObject> out = gc.solve((ArrayList<HeapObject>) objects,graph,(ArrayList<Integer>) rootlist,heapHash);
-        writeOutput(out,outputPath);
+        r.writeOutput(out,outputPath);
     }
 
-    private static void writeOutput(List<HeapObject> toSpace, String outputPath) {
-        File file = new File(outputPath + "\\new-heap.csv"); //out
-        try {
-            FileWriter myWriter = new FileWriter(file);
-            for (HeapObject heapObject : toSpace) {
-                myWriter.write(heapObject.getId() + "," + heapObject.getStart() + "," + heapObject.getEnd());
-                myWriter.write("\n");
-            }
-            myWriter.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
