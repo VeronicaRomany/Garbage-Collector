@@ -28,8 +28,8 @@ public class MarkAndCompact {
 
         for(int i=0 ; i<heap.size(); i++){
             if(i==0){
-                if(heap.get(i).getStart()!=1){
-                    heap.get(i).setStart(1);
+                if(heap.get(i).getStart()!=0){
+                    heap.get(i).setStart(0);
                 }
                 heap.get(i).setEnd(heap.get(i).getStart()+blockSize.get(i));
             }else{
