@@ -15,7 +15,6 @@ public class G1Runner {
         Graph graph = r.readPointers(pointersPath,heapHash);
         List<HeapObject> objects= CSVReader.objects;
 
-
         MarkAndSweep marker=new MarkAndSweep();
 
         G1Heap g1 = new G1Heap(800);
