@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -36,7 +39,7 @@ public class G1Heap {
                 System.out.println();
                 System.out.println("before sorting");
 //                printHeap();
-                HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[heap[i].residentObjects.size()]);
+                    HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[heap[i].residentObjects.size()]);
                 Arrays.sort(arr, (o1, o2) -> o1.getStart()-o2.getStart());
                 heap[i].residentObjects.clear();
                 Collections.addAll(heap[i].residentObjects,arr);
@@ -95,10 +98,37 @@ public class G1Heap {
             HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[0]);
             System.out.println(i+"> " +heap[i].free );
             for(int j=0;j<heap[i].residentObjects.size();j++){
-
                 System.out.println(arr[j].getStart()+">>"+arr[j].getEnd() +" :: "+arr[j].getId());
             }
         }
+    }
+
+    public void writeOutput(List<HeapObject> toSpace, String outputPath) {
+        File file = new File(outputPath + "\\new-heap.csv"); //out
+        try {
+            FileWriter myWriter = new FileWriter(file);
+            for (HeapObject heapObject : toSpace) {
+                myWriter.write(heapObject.getId() + "," + heapObject.getStart() + "," + heapObject.getEnd());
+                myWriter.write("\n");
+            }
+            myWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<HeapObject> getObjectsList(){
+        List<HeapObject> heaplist=new ArrayList<>();
+        for(int i=0;i<16;i++){
+            HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[heap[i].residentObjects.size()]);
+            for(int j=0;j<heap[i].residentObjects.size();j++){
+                arr[j].setStart(arr[j].getStart()+this.blockSize*i);
+                arr[j].setEnd(arr[j].getEnd()+this.blockSize*i);
+                heaplist.add(arr[j]);
+            }
+        }
+        return heaplist;
     }
 }
 

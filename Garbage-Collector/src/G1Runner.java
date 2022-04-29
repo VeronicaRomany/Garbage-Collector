@@ -1,13 +1,34 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class G1Runner {
     public static void main(String[] args){
-        String heapFilePath="heapG1.csv";
-        String pointersPath="pointersG1.csv";
-        String outputPath="newHeapG1.csv";
-        String rootsPath="roots.txt";
+        if(args.length!=5) {
+            System.out.println("Error, wrong number of arguements.\n" +
+                    "Expected heap path, roots path, pointers path, output path, total size of heap(divisible by 16).");
+            System.exit(0);
+        }
+
+
+
+        String heapFilePath=args[0];
+        System.out.println(heapFilePath);
+        String rootsPath=args[1];
+        System.out.println(rootsPath);
+        String pointersPath=args[2];
+        System.out.println(pointersPath);
+        String outputPath=args[3];
+        int sizeHeap=800;
+        try {
+            sizeHeap = Integer.parseInt(args[4]);
+        } catch (NumberFormatException e) {
+            System.err.println("Argument" + args[4] + " must be an integer.");
+            System.exit(1);
+        };
 
         CSVReader r = new CSVReader();
         List<Integer> rootlist=r.readRoots(rootsPath);
@@ -17,7 +38,7 @@ public class G1Runner {
 
         MarkAndSweep marker=new MarkAndSweep();
 
-        G1Heap g1 = new G1Heap(800);
+        G1Heap g1 = new G1Heap(sizeHeap);
         System.out.println("START");
         g1.initializeHeap((ArrayList<HeapObject>) objects);
         g1.printHeap();
@@ -27,7 +48,9 @@ public class G1Runner {
         g1.sweep();
         g1.defragment();
         g1.printHeap();
-
+        g1.writeOutput(g1.getObjectsList(),outputPath);
 
     }
+
+
 }
