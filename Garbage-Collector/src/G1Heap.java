@@ -19,62 +19,37 @@ public class G1Heap {
 
     public void initializeHeap(ArrayList<HeapObject> objects){
         for(int i=0;i<objects.size();i++){
-            System.out.println("read object "+i+" "+objects.get(i).getId() +" " + objects.get(i).getStart()+" "+objects.get(i).getEnd());
-        }
-
-
-        for(int i=0;i<objects.size();i++){
             HeapObject current = objects.get(i);
             int block=current.getStart()/blockSize;
             int offset=current.getStart()%blockSize;
-            System.out.println(current.getStart()+" " +current.getEnd()+" " + block+" " + offset);
             current.setStart(offset);
             current.setEnd(current.getEnd()%blockSize);
             heap[block].initializeBlock(current);
             blocked[block]=true;
         }
+
         for(int i=0;i<16;i++){
             if(heap[i].residentObjects.size()>1){
-                System.out.println();
-                System.out.println();
-                System.out.println("before sorting");
-//                printHeap();
-                    HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[heap[i].residentObjects.size()]);
+                HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[heap[i].residentObjects.size()]);
                 Arrays.sort(arr, (o1, o2) -> o1.getStart()-o2.getStart());
                 heap[i].residentObjects.clear();
                 Collections.addAll(heap[i].residentObjects,arr);
-                System.out.println("after sorting");
-//                printHeap();
-                System.out.println();
-                System.out.println();
-
             }
         }
 
     }
 
     public void sweep(){
-        System.out.println("before Sweeping");
-        this.printHeap();
         for(int i=0;i<16;i++){
             if(heap[i].sweepBlock()) blocked[i]=false;
         }
-        System.out.println("After Sweeping");
-        this.printHeap();
-        System.out.println("After Sweeping end");
-
     }
 
     public void defragment(){
-        System.out.println(" ");
-        System.out.println("Enter Defragment");
-
-
         for(int i=0;i<16;i++){
             if( !blocked[i])    continue; //blocked? true:continue , false:skip
             //reaching here, we need to set where our objects will go
             while (heap[i].residentObjects.size()>0 ) {
-                System.out.println(i+" s:"+heap[i].residentObjects.size());
                 //now we try to move all objects in this to the destination
                 //we search for the destination until it fits
                 for(int j=0;j<16;j++){
@@ -87,10 +62,7 @@ public class G1Heap {
                 heap[i].residentObjects.removeFirst();
                 if(heap[i].residentObjects.size()==0) heap[i].free=true;
             }
-//            this.printHeap();
         }
-
-        System.out.println("Exit Defragment");
     }
 
     public void printHeap(){

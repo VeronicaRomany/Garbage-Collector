@@ -30,7 +30,7 @@ public class G1Runner {
         List<Integer> rootlist=r.readRoots(rootsPath); //get roots
         HashMap<Integer, Integer> heapHash = r.heapInput(heapFilePath);
         Graph graph = r.readPointers(pointersPath,heapHash); //get pointers graph
-        List<HeapObject> objects= CSVReader.objects;    
+        List<HeapObject> objects= CSVReader.objects;
         MarkAndSweep marker=new MarkAndSweep();
         G1Heap g1 = new G1Heap(sizeHeap);
         g1.initializeHeap((ArrayList<HeapObject>) objects);
