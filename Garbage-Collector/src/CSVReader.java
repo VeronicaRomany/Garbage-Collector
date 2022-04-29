@@ -79,64 +79,6 @@ public class CSVReader {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        CSVReader csv = new CSVReader();
-        ArrayList <HeapObject> newHeap = new ArrayList<>();
 
-        HashMap heapReturned = csv.heapInput("C:\\Users\\veror\\Desktop\\Book1.csv");
-        List rootsReturned = csv.readRoots("C:\\Users\\veror\\Desktop\\roots.txt");
-         Graph g = csv.readPointers("C:\\Users\\veror\\Desktop\\pointers.csv",heapReturned);
-
-        System.out.println("Heap Input >> ");
-        csv.printHeap(objects);
-
-//        MarkAndSweep m = new MarkAndSweep();
-//        newHeap =  m.solve((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
-
-        MarkAndCompact m = new MarkAndCompact();
-        newHeap =  m.solve((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
-        System.out.println("Heap after mark and Compact >> ");
-        csv.printHeap(newHeap);
-
-      //   m.Mark((ArrayList<HeapObject>) csv.objects,g, (ArrayList<Integer>) rootsReturned,heapReturned);
-
-    //    for(int i=0 ; i<rootsReturned.size();i++){
-    //        if(heapReturned.containsKey(rootsReturned.get(i))){
-    //            HeapObject h = (HeapObject) csv.objects.get(i);
-    //            h.setMarked(true);
-    //        }
-    //    }
-//
-
-
-//       Iterator hmIterator = heapReturned.entrySet().iterator();
-//       while (hmIterator.hasNext()) {
-//           Map.Entry mapElement = (Map.Entry)hmIterator.next();
-//           System.out.println(mapElement.getKey() + " "+ mapElement.getValue());
-         //  HeapObject h = ((HeapObject) mapElement.getValue() );
-      //     int index = (int) mapElement.getValue();
-     //      System.out.println(mapElement.getKey() + " : " +csv.objects.get(index).getId() + " " +csv.objects.get(index).isMarked());
-//       }
-
-//        heapReturned.forEach((key, value) -> System.out.println("Key = " + key ));
-//        for (Map.Entry<Integer, HeapObject> entry : heapReturned.entrySet()) {
-//            Object key = entry.getKey();
-//            Object value = entry.getValue();
-//            //TODO: other cool stuff
-//        }
-////
-//
-//        for (int i=0 ; i< rootsReturned.size();i++){
-//            System.out.println(rootsReturned.get(i));
-//
-//        }
-        //        for (int i=0 ; i< heapReturned.size();i++){
-//            HeapObject obj = (HeapObject) heapReturned.get(i);
-//            System.out.println("Marked what : "+ obj.isMarked());
-//        }
-
-
-
-    }
 }
 
