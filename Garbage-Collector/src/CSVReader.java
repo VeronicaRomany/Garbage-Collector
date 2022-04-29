@@ -38,7 +38,7 @@ public class CSVReader {
     }
 
     public Graph readPointers(String path , HashMap<Integer,Integer> heap) {
-     //   List<Edge> edges= new ArrayList<>();
+
         Graph g = new Graph(objects.size());
         String line = "";
         String splitBy = ",";
@@ -48,8 +48,6 @@ public class CSVReader {
                 String[] object = line.split(splitBy);
                 int src = Integer.parseInt(object[0]);
                 int dest = Integer.parseInt(object[1]);
-             //   System.out.println("src is " + src + dest);
-              //  System.out.println(heap.get(src)+"  "+ heap.get(dest));
                 g.addEdge(heap.get(src), heap.get(dest));
             }
         }
