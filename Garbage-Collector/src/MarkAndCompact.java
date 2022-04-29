@@ -51,4 +51,9 @@ public class MarkAndCompact {
 
         return compact(newHeap);
     }
+
+    public static void main(String[] args) {
+        MarkAndCompact gc = new MarkAndCompact();
+        //gc.solve();
+    }
 }

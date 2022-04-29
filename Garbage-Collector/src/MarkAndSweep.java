@@ -44,4 +44,8 @@ public class MarkAndSweep {
         return sweep(objects);
     }
 
+    public static void main(String[] args) {
+        MarkAndSweep gc = new MarkAndSweep();
+        //gc.solve()
+    }
 }

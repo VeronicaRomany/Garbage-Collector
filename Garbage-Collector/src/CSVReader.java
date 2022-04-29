@@ -64,6 +64,20 @@ public class CSVReader {
             System.out.println(h.get(i).getId() + " " + h.get(i).isMarked() + " " + h.get(i).getStart() + " " + h.get(i).getEnd());
         }
     }
+    private void writeOutput(List<HeapObject> newHeap, String outputPath) {
+        File file = new File(outputPath + "\\new-heap.csv"); //out
+        try {
+            FileWriter myWriter = new FileWriter(file);
+            for (HeapObject heapObject : newHeap) {
+                myWriter.write(heapObject.getId() + "," + heapObject.getStart() + "," + heapObject.getEnd());
+                myWriter.write("\n");
+            }
+            myWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         CSVReader csv = new CSVReader();

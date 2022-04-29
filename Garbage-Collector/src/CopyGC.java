@@ -55,10 +55,6 @@ public class CopyGC {
             }
         }
 
-        System.out.println("finaleeeee ya yaryora");
-        for (HeapObject heapObject : toSpace) {
-            System.out.println(heapObject.getId() + "\t" + heapObject.getStart() + "\t" + heapObject.getEnd());
-        }
         return toSpace;
     }
 
@@ -72,7 +68,7 @@ public class CopyGC {
     }
 
     private void writeOutput(List<HeapObject> toSpace, String outputPath) {
-        File file = new File(outputPath + "\\newHeap.csv"); //out
+        File file = new File(outputPath + "\\new-heap.csv"); //out
         try {
             FileWriter myWriter = new FileWriter(file);
             for (HeapObject heapObject : toSpace) {
@@ -90,5 +86,10 @@ public class CopyGC {
         init(heapPath, rootsPath, pointersPath);
         List<HeapObject> newHeap = copyAlgorithm();
         writeOutput(newHeap, outputPath);
+    }
+
+    public static void main(String[] args) {
+        CopyGC gc = new CopyGC();
+        gc.copyGC(args[0], args[1], args[2], args[3]);
     }
 }
