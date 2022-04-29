@@ -1,6 +1,10 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class MarkAndCompact {
 
@@ -54,6 +58,39 @@ public class MarkAndCompact {
 
     public static void main(String[] args) {
         MarkAndCompact gc = new MarkAndCompact();
-        //gc.solve();
+        if(args.length!=4) {
+            System.out.println("Error, wrong number of arguements.\n" +
+                    "Expected heap path, roots path, pointers path, output folder path.");
+            System.exit(0);
+        }
+        String heapFilePath=args[0];
+        String rootsPath=args[1];
+        String pointersPath=args[2];
+        String outputPath=args[3];
+
+        //Initialization Steps //////////////////////////////////////////
+        CSVReader r = new CSVReader();
+        List<Integer> rootlist=r.readRoots(rootsPath); //get roots
+        HashMap<Integer, Integer> heapHash = r.heapInput(heapFilePath);
+        Graph graph = r.readPointers(pointersPath,heapHash); //get pointers graph
+        List<HeapObject> objects= CSVReader.objects;
+
+        List<HeapObject> out = gc.solve((ArrayList<HeapObject>) objects,graph,(ArrayList<Integer>) rootlist,heapHash);
+        writeOutput(out,outputPath);
+    }
+
+    private static void writeOutput(List<HeapObject> toSpace, String outputPath) {
+        File file = new File(outputPath + "\\new-heap.csv"); //out
+        try {
+            FileWriter myWriter = new FileWriter(file);
+            for (HeapObject heapObject : toSpace) {
+                myWriter.write(heapObject.getId() + "," + heapObject.getStart() + "," + heapObject.getEnd());
+                myWriter.write("\n");
+            }
+            myWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
