@@ -28,14 +28,14 @@ public class G1Heap {
             blocked[block]=true;
         }
 
-//        for(int i=0;i<16;i++){
-//            if(heap[i].residentObjects.size()>1){
-//                HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[heap[i].residentObjects.size()]);
-//                Arrays.sort(arr, (o1, o2) -> o1.getStart()-o2.getStart());
-//                heap[i].residentObjects.clear();
-//                Collections.addAll(heap[i].residentObjects,arr);
-//            }
-//        }
+        for(int i=0;i<16;i++){
+            if(heap[i].residentObjects.size()>1){
+                HeapObject[] arr = heap[i].residentObjects.toArray(new HeapObject[heap[i].residentObjects.size()]);
+                Arrays.sort(arr, (o1, o2) -> o1.getStart()-o2.getStart());
+                heap[i].residentObjects.clear();
+                Collections.addAll(heap[i].residentObjects,arr);
+            }
+        }
 
     }
 
